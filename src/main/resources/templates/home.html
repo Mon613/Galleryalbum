@@ -13,11 +13,19 @@
 
 </head>
 <body>
+<!--CHECK IF THERE IS A MESSAGE-->
+<div th:if="${messageSuccess}" class="my-alert alert alert-success" role="alert">
+    <div th:text="${messageSuccess}"></div>
+</div>
+
+<div th:if="${messageFail}" class="my-alert alert alert-danger" role="alert">
+    <div th:text="${messageFail}"></div>
+</div>
 <div class="container" style="padding: 40px; background-color: darkgray; margin-top: 7%;">
     <div class=" row" style="display: flex; justify-content: space-between; margin: 10px;">
 
         <div class="card col-md-3" style="width: 18rem;margin-bottom: 15px; " th:each="img:${imgs}">
-            <img th:src="@{${'/upload/'+img.getFolderName()+'/'+img.getName()}}" class="card-img-top" alt="...">
+            <img th:src="@{${'/upload/'+img.getFolderName()+'/'+img.getName()}}" class="card-img-top" alt="..." style=" max-width: 100%; max-height: 100%;">
             <div class="card-body">
                 <a th:href="@{'/album/delete/' + ${img.getId()}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a>
             </div>
@@ -27,5 +35,14 @@
         <button type="button" class="btn btn-primary" ><a href="/album/upload" style="text-decoration: none; color: aliceblue">New Image</a></button>
     </div>
 </div>
+<script>
+    //web API , LibUV
+    setTimeout(() => {
+        const alerts = document.getElementsByClassName('my-alert');//DOM API
+        for (let i = 0; i < alerts.length; i++) {
+            alerts[i].style.display = 'none';
+        }
+    }, 3000);
+</script>
 </body>
 </html>
