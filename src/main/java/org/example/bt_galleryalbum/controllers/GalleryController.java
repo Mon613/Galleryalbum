@@ -50,6 +50,7 @@ public class GalleryController implements ICrud {
             String name = timeStamps+"."+extension;
             Files.write(Path.of(uploadFolder +"/" + timeStamps+"."+extension),byteFile);
             images.setName(name);
+            images.setFolderName(folderName);
             boolean check = imgDAO.create(images);
             if (check){
                 redirectAttributes.addFlashAttribute("messageSuccess","Image create successfully");
@@ -71,19 +72,14 @@ public class GalleryController implements ICrud {
 
     @Override
     @GetMapping("/delete/{id}")
-    public String delete(Integer id, Images images) {
-        boolean check = imgDAO.delete(id);
+    public String delete(Integer id) {
         Images img = imgDAO.find(id);
+        boolean check = imgDAO.delete(id);
+
+        System.out.println(img.getFolderName()+"/"+img.getName());
         if(check){
             try{
-                String month = new SimpleDateFormat("MM").format(new Date());
-                //lay ra nam hien tai
-                String year = new SimpleDateFormat("yyyy").format(new Date());
-                String folderName = month+"-"+year;
-                String uploadFolder = UPLOAD_FOLDER+folderName;
-
-                System.out.println(images.getName());
-                Files.delete(Path.of(uploadFolder + "/" + img.getName()));
+                Files.deleteIfExists(Path.of(UPLOAD_FOLDER+"/"+img.getFolderName() + "/" + img.getName()));
             }catch (Exception e){
                 e.printStackTrace();
             }

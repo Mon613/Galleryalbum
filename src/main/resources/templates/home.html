@@ -17,7 +17,7 @@
     <div class=" row" style="display: flex; justify-content: space-between; margin: 10px;">
 
         <div class="card col-md-3" style="width: 18rem;margin-bottom: 15px; " th:each="img:${imgs}">
-            <img th:src="@{${'/upload/'+img.getName()}}" class="card-img-top" alt="...">
+            <img th:src="@{${'/upload/'+img.getFolderName()+'/'+img.getName()}}" class="card-img-top" alt="...">
             <div class="card-body">
                 <a th:href="@{'/album/delete/' + ${img.getId()}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a>
             </div>

@@ -16,8 +16,9 @@ public class ImgDAO extends DB{
         try{
             connection = getConnect();
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("insert into tb_images(nameImg) values (?)");
+            preparedStatement = connection.prepareStatement("insert into tb_images(nameImg,folder_name) values (?,?)");
             preparedStatement.setString(1,images.getName());
+            preparedStatement.setString(2,images.getFolderName());
             preparedStatement.executeUpdate();
             return true;
         }catch (Exception e){
@@ -27,22 +28,23 @@ public class ImgDAO extends DB{
 
     }
     public ArrayList<Images> list(){
-        ArrayList<Images> img = new ArrayList<>();
+        ArrayList<Images> imgs = new ArrayList<>();
         try{
             connection = getConnect();
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select* from tb_images");
 
             while (resultSet.next()){
-                Images product = new Images();
-                product.setId(resultSet.getInt("id"));
-                product.setName(resultSet.getString("nameImg"));
-                img.add(product);
+                Images image = new Images();
+                image.setId(resultSet.getInt("id"));
+                image.setName(resultSet.getString("nameImg"));
+                image.setFolderName(resultSet.getString("folder_name"));
+                imgs.add(image);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        return img;
+        return imgs;
     }
     public boolean delete(Integer id){
         try{
@@ -66,6 +68,8 @@ public class ImgDAO extends DB{
             while (resultSet.next()) {
                 image.setId(resultSet.getInt("id"));
                 image.setName(resultSet.getString("nameImg"));
+                image.setFolderName(resultSet.getString("folder_name"));
+
             }
             return image;
         } catch (Exception e) {

@@ -10,5 +10,5 @@ public interface ICrud {
     public String create(Model model);
     public String list(Model model);
     @GetMapping("/delete/{id}")
-    String delete(@PathVariable(name = "id") Integer id, Images images);
+    String delete(@PathVariable(name = "id") Integer id);
 }
